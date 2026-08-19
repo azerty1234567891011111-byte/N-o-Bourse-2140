@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vertex Markets — Simulation</title>
 
 <style>
@@ -12,8 +12,10 @@ body{
 margin:0;
 background:#070b0f;
 color:#e8edf2;
-font-family:Inter,Arial,sans-serif;
+font-family:Arial,Helvetica,sans-serif
 }
+
+button{font-family:inherit}
 
 .app{display:flex;min-height:100vh}
 
@@ -21,17 +23,16 @@ font-family:Inter,Arial,sans-serif;
 width:230px;
 background:#0b1015;
 border-right:1px solid #202832;
-padding:24px 14px;
 position:fixed;
 top:0;
 bottom:0;
+padding:25px 14px
 }
 
 .logo{
 font-size:25px;
 font-weight:800;
-padding:8px 14px 35px;
-letter-spacing:.5px;
+padding:8px 14px 38px
 }
 
 .logo span{color:#19c37d}
@@ -39,87 +40,86 @@ letter-spacing:.5px;
 .nav{
 display:flex;
 flex-direction:column;
-gap:4px;
+gap:5px
 }
 
 .nav button{
-background:none;
 border:0;
-color:#82909e;
-text-align:left;
+background:transparent;
+color:#81909e;
 padding:13px 15px;
 border-radius:7px;
-font-size:14px;
-cursor:pointer;
+text-align:left;
+cursor:pointer
 }
 
 .nav button:hover,
 .nav button.active{
 background:#151d26;
-color:white;
+color:white
 }
 
 .main{
 margin-left:230px;
-width:calc(100% - 230px);
+width:calc(100% - 230px)
 }
 
-.top{
+.topbar{
 height:68px;
 border-bottom:1px solid #202832;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 28px;
+padding:0 28px
 }
 
 .live{
-font-size:11px;
 color:#19c37d;
+font-size:11px
 }
 
 .account{
 font-size:13px;
-color:#8995a2;
+color:#8c98a5
 }
 
 .content{padding:28px}
 
 h1{
 margin:0;
-font-size:27px;
+font-size:27px
 }
 
 .subtitle{
-color:#74818f;
 margin:7px 0 25px;
-font-size:13px;
+color:#74818f;
+font-size:13px
 }
 
 .cards{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:14px;
+gap:14px
 }
 
 .card{
 background:#0d131a;
 border:1px solid #202832;
 border-radius:9px;
-padding:20px;
+padding:20px
 }
 
 .label{
-font-size:10px;
 color:#71808f;
+font-size:10px;
 text-transform:uppercase;
-letter-spacing:.6px;
+letter-spacing:.5px
 }
 
 .value{
 font-size:23px;
 font-weight:700;
-margin-top:10px;
+margin-top:9px
 }
 
 .green{color:#19c37d}
@@ -129,73 +129,86 @@ margin-top:10px;
 display:grid;
 grid-template-columns:2fr 1fr;
 gap:14px;
-margin-top:14px;
+margin-top:14px
 }
 
 .market-header{
 display:flex;
 justify-content:space-between;
-align-items:center;
+align-items:flex-start
 }
 
 .asset{
 font-size:20px;
-font-weight:700;
+font-weight:700
 }
 
 .price{
 font-size:27px;
 font-weight:700;
-margin-top:8px;
+margin-top:8px
 }
 
 .change{
 font-size:13px;
-margin-top:5px;
+margin-top:6px
+}
+
+.update{
+font-size:10px;
+color:#687583
 }
 
 .chart{
 height:390px;
 margin-top:22px;
-position:relative;
-overflow:hidden;
 border:1px solid #1b242e;
 border-radius:7px;
+overflow:hidden;
 background:
 linear-gradient(#151d26 1px,transparent 1px),
 linear-gradient(90deg,#151d26 1px,transparent 1px);
-background-size:50px 50px;
+background-size:50px 50px
 }
 
-svg{
+.chart svg{
 width:100%;
-height:100%;
+height:100%
+}
+
+#chartLine{
+fill:none;
+stroke:#19c37d;
+stroke-width:3;
+stroke-linecap:round;
+stroke-linejoin:round
 }
 
 .controls{
 display:flex;
 gap:7px;
-margin-top:12px;
+margin-top:12px
 }
 
 .controls button{
 background:#111820;
 border:1px solid #26313d;
 color:#8794a2;
-padding:7px 11px;
+padding:7px 12px;
 border-radius:5px;
-cursor:pointer;
+cursor:pointer
 }
 
-.controls button:hover{
+.controls button:hover,
+.controls button.selected{
 color:white;
-border-color:#19c37d;
+border-color:#19c37d
 }
 
 .order-title{
 font-size:16px;
 font-weight:700;
-margin-bottom:20px;
+margin-bottom:20px
 }
 
 .order-row{
@@ -203,7 +216,7 @@ display:flex;
 justify-content:space-between;
 padding:14px 0;
 border-bottom:1px solid #202832;
-font-size:13px;
+font-size:13px
 }
 
 .order-row span{color:#7b8997}
@@ -211,7 +224,7 @@ font-size:13px;
 .order-buttons{
 display:flex;
 gap:8px;
-margin-top:20px;
+margin-top:20px
 }
 
 .order-buttons button{
@@ -221,7 +234,7 @@ border:0;
 border-radius:6px;
 color:white;
 font-weight:700;
-cursor:pointer;
+cursor:pointer
 }
 
 .buy{background:#138a58}
@@ -230,65 +243,105 @@ cursor:pointer;
 .buy:hover{background:#19a66b}
 .sell:hover{background:#d14656}
 
+.quantity{
+width:100%;
+margin-top:10px;
+padding:11px;
+background:#080d12;
+border:1px solid #26313d;
+border-radius:6px;
+color:white;
+outline:none
+}
+
 .markets{
-margin-top:14px;
+margin-top:14px
 }
 
 table{
 width:100%;
-border-collapse:collapse;
+border-collapse:collapse
 }
 
 th{
 text-align:left;
-font-size:10px;
-color:#687583;
 padding:14px;
+font-size:10px;
+color:#687583
 }
 
 td{
 padding:17px 14px;
 border-top:1px solid #202832;
-font-size:13px;
+font-size:13px
 }
 
-tr:hover td{
-background:#111820;
+.market-row{
+cursor:pointer;
+transition:.15s
+}
+
+.market-row:hover{
+background:#121a22
+}
+
+.market-row.selected{
+background:#151f29
 }
 
 .asset-name{
-font-weight:700;
-cursor:pointer;
+font-weight:700
 }
 
 .status{
-font-size:11px;
 color:#19c37d;
+font-size:11px
 }
 
 .notice{
 text-align:center;
-font-size:10px;
-color:#596675;
 padding:18px;
+font-size:10px;
+color:#596675
 }
 
-.error{
-color:#ea5260;
-font-size:11px;
-margin-top:8px;
+.message{
+margin-top:15px;
+padding:12px;
+border-radius:6px;
+background:#111820;
+color:#9aa6b3;
+font-size:12px;
+display:none
 }
 
 @media(max-width:900px){
+
 .sidebar{display:none}
-.main{margin-left:0;width:100%}
-.cards{grid-template-columns:repeat(2,1fr)}
-.workspace{grid-template-columns:1fr}
+
+.main{
+margin-left:0;
+width:100%
+}
+
+.cards{
+grid-template-columns:repeat(2,1fr)
+}
+
+.workspace{
+grid-template-columns:1fr
+}
 }
 
 @media(max-width:600px){
-.cards{grid-template-columns:1fr}
-.content{padding:15px}
+
+.cards{
+grid-template-columns:1fr
+}
+
+.content{
+padding:15px
+}
 }
 </style>
 </head>
@@ -313,19 +366,20 @@ VERTEX<span>.</span>
 <button>⚙ Paramètres</button>
 
 </nav>
+
 </aside>
 
 
 <main class="main">
 
-<header class="top">
+<header class="topbar">
 
 <div class="live">
 ● MARCHÉS EN DIRECT
 </div>
 
 <div class="account">
-Compte démo · 10 000 crédits
+Compte démo · <b id="balanceTop">10 000,00 €</b>
 </div>
 
 </header>
@@ -336,7 +390,7 @@ Compte démo · 10 000 crédits
 <h1>Tableau de bord</h1>
 
 <div class="subtitle">
-Simulation de marché — données publiques actualisées automatiquement
+Simulation de trading avec données de marché actualisées
 </div>
 
 
@@ -344,22 +398,22 @@ Simulation de marché — données publiques actualisées automatiquement
 
 <div class="card">
 <div class="label">Solde disponible</div>
-<div class="value">10 000,00 €</div>
+<div class="value" id="balance">10 000,00 €</div>
 </div>
 
 <div class="card">
 <div class="label">Performance</div>
-<div class="value green">+428,60 €</div>
+<div class="value green" id="profit">+0,00 €</div>
 </div>
 
 <div class="card">
 <div class="label">Rendement</div>
-<div class="value green">+4,28 %</div>
+<div class="value green" id="return">+0,00 %</div>
 </div>
 
 <div class="card">
 <div class="label">Positions</div>
-<div class="value">4</div>
+<div class="value" id="positions">0</div>
 </div>
 
 </div>
@@ -373,49 +427,57 @@ Simulation de marché — données publiques actualisées automatiquement
 <div class="market-header">
 
 <div>
-<div class="asset" id="assetName">BTC / USD</div>
-<div class="price" id="assetPrice">Chargement...</div>
-<div class="change" id="assetChange">Connexion au marché...</div>
+
+<div class="asset" id="assetName">
+BTC / USD
 </div>
 
-<div id="lastUpdate"></div>
+<div class="price" id="assetPrice">
+Chargement...
+</div>
+
+<div class="change" id="assetChange">
+Connexion...
+</div>
+
+</div>
+
+<div class="update" id="lastUpdate">
+—
+</div>
 
 </div>
 
 
 <div class="chart">
 
-<svg viewBox="0 0 1000 390" preserveAspectRatio="none">
+<svg viewBox="0 0 1000 390"
+preserveAspectRatio="none">
 
-<polyline
-id="chartLine"
-fill="none"
-stroke="#19c37d"
-stroke-width="3"
+<polyline id="chartLine"
 points="
 0,280
 50,270
-100,290
+100,285
 150,250
-200,260
+200,265
 250,220
 300,235
 350,190
 400,205
 450,160
-500,180
+500,175
 550,135
 600,150
-650,120
-700,140
-750,95
-800,110
+650,115
+700,130
+750,90
+800,105
 850,70
 900,85
 950,55
 1000,70
-"
-/>
+"/>
 
 </svg>
 
@@ -424,11 +486,16 @@ points="
 
 <div class="controls">
 
-<button onclick="selectTime('1H')">1H</button>
-<button onclick="selectTime('4H')">4H</button>
-<button onclick="selectTime('1D')">1D</button>
-<button onclick="selectTime('1W')">1W</button>
-<button onclick="selectTime('1M')">1M</button>
+<button class="selected"
+onclick="setTimeframe(this,'1H')">1H</button>
+
+<button onclick="setTimeframe(this,'4H')">4H</button>
+
+<button onclick="setTimeframe(this,'1D')">1D</button>
+
+<button onclick="setTimeframe(this,'1W')">1W</button>
+
+<button onclick="setTimeframe(this,'1M')">1M</button>
 
 </div>
 
@@ -447,14 +514,22 @@ Passer un ordre virtuel
 </div>
 
 <div class="order-row">
-<span>Prix actuel</span>
+<span>Prix</span>
 <strong id="orderPrice">—</strong>
 </div>
 
-<div class="order-row">
-<span>Quantité</span>
-<strong>1,00</strong>
-</div>
+<label class="label">
+Quantité
+</label>
+
+<input
+id="quantity"
+class="quantity"
+type="number"
+value="1"
+min="0.01"
+step="0.01"
+>
 
 <div class="order-row">
 <span>Valeur</span>
@@ -463,11 +538,17 @@ Passer un ordre virtuel
 
 <div class="order-buttons">
 
-<button class="buy" onclick="buy()">ACHETER</button>
+<button class="buy" onclick="executeOrder('BUY')">
+ACHETER
+</button>
 
-<button class="sell" onclick="sell()">VENDRE</button>
+<button class="sell" onclick="executeOrder('SELL')">
+VENDRE
+</button>
 
 </div>
+
+<div class="message" id="message"></div>
 
 </div>
 
@@ -493,7 +574,10 @@ Passer un ordre virtuel
 
 <tbody>
 
-<tr onclick="choose('bitcoin','BTC / USD')">
+<tr
+id="row-bitcoin"
+class="market-row selected"
+onclick="selectAsset('bitcoin','BTC / USD')">
 
 <td class="asset-name">
 ₿ BTC / USD
@@ -503,12 +587,17 @@ Passer un ordre virtuel
 
 <td id="btcChange">—</td>
 
-<td class="status">LIVE</td>
+<td class="status">
+LIVE
+</td>
 
 </tr>
 
 
-<tr onclick="choose('ethereum','ETH / USD')">
+<tr
+id="row-ethereum"
+class="market-row"
+onclick="selectAsset('ethereum','ETH / USD')">
 
 <td class="asset-name">
 ♦ ETH / USD
@@ -518,23 +607,28 @@ Passer un ordre virtuel
 
 <td id="ethChange">—</td>
 
-<td class="status">LIVE</td>
+<td class="status">
+LIVE
+</td>
 
 </tr>
 
 
-<tr onclick="chooseGold()">
+<tr
+id="row-gold"
+class="market-row"
+onclick="selectGold()">
 
 <td class="asset-name">
 GOLD / USD
 </td>
 
-<td id="goldPrice">Configuration API</td>
+<td id="goldPrice">—</td>
 
-<td>—</td>
+<td id="goldChange">—</td>
 
 <td class="status">
-API requise
+À CONFIGURER
 </td>
 
 </tr>
@@ -548,9 +642,7 @@ API requise
 
 <div class="notice">
 
-MODE SIMULATION — Tous les soldes et ordres sont virtuels.
-Les cours crypto affichés proviennent de données de marché publiques.
-Le Gold nécessite une source de données dédiée.
+MODE SIMULATION — Aucun argent réel. Les ordres et soldes sont virtuels.
 
 </div>
 
@@ -563,124 +655,25 @@ Le Gold nécessite une source de données dédiée.
 
 <script>
 
+/* =====================================
+   ÉTAT DE L'APPLICATION
+===================================== */
+
 let currentAsset = "bitcoin";
 let currentName = "BTC / USD";
 
+let currentPrice = 0;
 
-// ================================
-// COINGECKO — DONNÉES CRYPTO
-// ================================
+let balance = 10000;
 
-async function updateCrypto(){
-
-try{
-
-const url =
-"https://api.coingecko.com/api/v3/simple/price" +
-"?ids=bitcoin,ethereum" +
-"&vs_currencies=usd" +
-"&include_24hr_change=true" +
-"&include_last_updated_at=true";
-
-const response = await fetch(url);
-
-if(!response.ok){
-throw new Error("API indisponible");
-}
-
-const data = await response.json();
+let positionCount = 0;
 
 
-// BTC
+/* =====================================
+   FORMATAGE
+===================================== */
 
-const btc =
-Number(data.bitcoin.usd);
-
-const btcChange =
-Number(data.bitcoin.usd_24h_change);
-
-document.getElementById("btcPrice").textContent =
-formatPrice(btc);
-
-document.getElementById("btcChange").textContent =
-formatChange(btcChange);
-
-document.getElementById("btcChange").className =
-btcChange >= 0 ? "green" : "red";
-
-
-// ETH
-
-const eth =
-Number(data.ethereum.usd);
-
-const ethChange =
-Number(data.ethereum.usd_24h_change);
-
-document.getElementById("ethPrice").textContent =
-formatPrice(eth);
-
-document.getElementById("ethChange").textContent =
-formatChange(ethChange);
-
-document.getElementById("ethChange").className =
-ethChange >= 0 ? "green" : "red";
-
-
-// ACTIF SÉLECTIONNÉ
-
-const selected =
-data[currentAsset];
-
-if(selected){
-
-document.getElementById("assetPrice").textContent =
-formatPrice(selected.usd);
-
-document.getElementById("orderPrice").textContent =
-formatPrice(selected.usd);
-
-document.getElementById("orderValue").textContent =
-formatPrice(selected.usd);
-
-const change =
-Number(selected.usd_24h_change);
-
-document.getElementById("assetChange").textContent =
-formatChange(change) + " sur 24h";
-
-document.getElementById("assetChange").className =
-"change " + (change >= 0 ? "green" : "red");
-
-}
-
-document.getElementById("lastUpdate").textContent =
-"● Actualisé";
-
-document.getElementById("lastUpdate").className =
-"status";
-
-}catch(error){
-
-document.getElementById("assetPrice").textContent =
-"Données indisponibles";
-
-document.getElementById("assetChange").textContent =
-"Impossible de récupérer les données actuellement.";
-
-document.getElementById("assetChange").className =
-"error";
-
-}
-
-}
-
-
-// ================================
-// FORMATAGE
-// ================================
-
-function formatPrice(value){
+function money(value){
 
 return new Intl.NumberFormat(
 "fr-FR",
@@ -693,36 +686,191 @@ maximumFractionDigits:2
 }
 
 
-function formatChange(value){
+function euros(value){
 
-const sign =
-value >= 0 ? "+" : "";
-
-return sign +
-value.toFixed(2) +
-" %";
+return new Intl.NumberFormat(
+"fr-FR",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+).format(value) + " €";
 
 }
 
 
-// ================================
-// CHANGEMENT D'ACTIF
-// ================================
+function percentage(value){
 
-function choose(id,name){
+const sign = value >= 0 ? "+" : "";
 
-currentAsset=id;
-currentName=name;
-
-document.getElementById("assetName").textContent=name;
-document.getElementById("orderAsset").textContent=name;
-
-updateCrypto();
+return sign + value.toFixed(2) + " %";
 
 }
 
 
-function chooseGold(){
+/* =====================================
+   API COINGECKO
+===================================== */
+
+async function updateMarkets(){
+
+try{
+
+const url =
+"https://api.coingecko.com/api/v3/simple/price" +
+"?ids=bitcoin,ethereum" +
+"&vs_currencies=usd" +
+"&include_24hr_change=true";
+
+const response = await fetch(url);
+
+if(!response.ok){
+throw new Error("API");
+}
+
+const data = await response.json();
+
+
+/* BTC */
+
+const btc = Number(data.bitcoin.usd);
+
+const btcChange =
+Number(data.bitcoin.usd_24h_change || 0);
+
+document.getElementById("btcPrice").textContent =
+money(btc);
+
+document.getElementById("btcChange").textContent =
+percentage(btcChange);
+
+document.getElementById("btcChange").className =
+btcChange >= 0 ? "green" : "red";
+
+
+/* ETH */
+
+const eth = Number(data.ethereum.usd);
+
+const ethChange =
+Number(data.ethereum.usd_24h_change || 0);
+
+document.getElementById("ethPrice").textContent =
+money(eth);
+
+document.getElementById("ethChange").textContent =
+percentage(ethChange);
+
+document.getElementById("ethChange").className =
+ethChange >= 0 ? "green" : "red";
+
+
+/* ACTIF ACTUEL */
+
+if(currentAsset === "bitcoin"){
+
+setCurrentPrice(btc,btcChange);
+
+}
+
+if(currentAsset === "ethereum"){
+
+setCurrentPrice(eth,ethChange);
+
+}
+
+
+document.getElementById("lastUpdate").textContent =
+"Actualisé à " +
+new Date().toLocaleTimeString("fr-FR");
+
+
+}catch(error){
+
+document.getElementById("assetPrice").textContent =
+"Données indisponibles";
+
+document.getElementById("assetChange").textContent =
+"Erreur de connexion au marché";
+
+}
+
+}
+
+
+/* =====================================
+   PRIX ACTUEL
+===================================== */
+
+function setCurrentPrice(price,change){
+
+currentPrice = price;
+
+document.getElementById("assetPrice").textContent =
+money(price);
+
+document.getElementById("orderPrice").textContent =
+money(price);
+
+document.getElementById("orderValue").textContent =
+money(price);
+
+const changeElement =
+document.getElementById("assetChange");
+
+changeElement.textContent =
+percentage(change) + " sur 24h";
+
+changeElement.className =
+"change " + (change >= 0 ? "green" : "red");
+
+}
+
+
+/* =====================================
+   CHANGER D'ACTIF
+===================================== */
+
+function selectAsset(id,name){
+
+currentAsset = id;
+
+currentName = name;
+
+document.getElementById("assetName").textContent =
+name;
+
+document.getElementById("orderAsset").textContent =
+name;
+
+
+/* lignes sélectionnées */
+
+document
+.querySelectorAll(".market-row")
+.forEach(row => row.classList.remove("selected"));
+
+document
+.getElementById("row-" + id)
+.classList.add("selected");
+
+
+updateMarkets();
+
+}
+
+
+/* =====================================
+   GOLD
+===================================== */
+
+function selectGold(){
+
+currentAsset = "gold";
+
+currentName = "GOLD / USD";
+
+currentPrice = 0;
 
 document.getElementById("assetName").textContent =
 "GOLD / USD";
@@ -733,57 +881,170 @@ document.getElementById("orderAsset").textContent =
 document.getElementById("assetPrice").textContent =
 "API Gold à connecter";
 
+document.getElementById("orderPrice").textContent =
+"—";
+
+document.getElementById("orderValue").textContent =
+"—";
+
 document.getElementById("assetChange").textContent =
-"Source de données Gold non configurée";
+"Données Gold non configurées";
+
+document.getElementById("assetChange").className =
+"change";
+
+document
+.querySelectorAll(".market-row")
+.forEach(row => row.classList.remove("selected"));
+
+document
+.getElementById("row-gold")
+.classList.add("selected");
 
 }
 
 
-// ================================
-// BOUTONS
-// ================================
+/* =====================================
+   ORDRE VIRTUEL
+===================================== */
 
-function buy(){
+function executeOrder(type){
 
-alert(
-"Ordre virtuel d'achat enregistré pour " +
-currentName
+const quantity =
+Number(document.getElementById("quantity").value);
+
+if(!currentPrice){
+
+showMessage(
+"Impossible de passer l'ordre : prix indisponible."
+);
+
+return;
+
+}
+
+if(!quantity || quantity <= 0){
+
+showMessage(
+"Indique une quantité valide."
+);
+
+return;
+
+}
+
+const total = currentPrice * quantity;
+
+if(type === "BUY" && total > balance){
+
+showMessage(
+"Solde virtuel insuffisant."
+);
+
+return;
+
+}
+
+if(type === "BUY"){
+
+balance -= total;
+
+}
+
+if(type === "SELL"){
+
+balance += total;
+
+}
+
+positionCount++;
+
+updateBalance();
+
+showMessage(
+(type === "BUY" ? "Achat" : "Vente") +
+" virtuel exécuté : " +
+quantity +
+" × " +
+currentName +
+" à " +
+money(currentPrice)
 );
 
 }
 
 
-function sell(){
+/* =====================================
+   SOLDE
+===================================== */
 
-alert(
-"Ordre virtuel de vente enregistré pour " +
-currentName
+function updateBalance(){
+
+document.getElementById("balance").textContent =
+euros(balance);
+
+document.getElementById("balanceTop").textContent =
+euros(balance);
+
+document.getElementById("positions").textContent =
+positionCount;
+
+}
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+function showMessage(text){
+
+const box =
+document.getElementById("message");
+
+box.textContent = text;
+
+box.style.display = "block";
+
+setTimeout(
+() => box.style.display = "none",
+4000
 );
 
 }
 
 
-function selectTime(time){
+/* =====================================
+   TIMEFRAME
+===================================== */
 
-alert(
-"Unité de temps sélectionnée : " +
-time
+function setTimeframe(button,time){
+
+document
+.querySelectorAll(".controls button")
+.forEach(btn => btn.classList.remove("selected"));
+
+button.classList.add("selected");
+
+showMessage(
+"Unité de temps : " + time
 );
 
 }
 
 
-// ================================
-// INITIALISATION
-// ================================
+/* =====================================
+   INITIALISATION
+===================================== */
 
-updateCrypto();
+updateMarkets();
+
+updateBalance();
 
 
-// Actualisation toutes les 30 secondes
+/* Actualisation automatique */
 
 setInterval(
-updateCrypto,
+updateMarkets,
 30000
 );
 
