@@ -1,128 +1,793 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trading Game</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vertex Markets — Simulation</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-    }
+<style>
+*{box-sizing:border-box}
 
-    header {
-      padding: 20px;
-      background: #111827;
-      border-bottom: 1px solid #334155;
-    }
+body{
+margin:0;
+background:#070b0f;
+color:#e8edf2;
+font-family:Inter,Arial,sans-serif;
+}
 
-    h1 {
-      margin: 0;
-    }
+.app{display:flex;min-height:100vh}
 
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 20px;
-    }
+.sidebar{
+width:230px;
+background:#0b1015;
+border-right:1px solid #202832;
+padding:24px 14px;
+position:fixed;
+top:0;
+bottom:0;
+}
 
-    .cards {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+.logo{
+font-size:25px;
+font-weight:800;
+padding:8px 14px 35px;
+letter-spacing:.5px;
+}
 
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      flex: 1;
-      min-width: 200px;
-    }
+.logo span{color:#19c37d}
 
-    .solde {
-      font-size: 28px;
-      font-weight: bold;
-    }
+.nav{
+display:flex;
+flex-direction:column;
+gap:4px;
+}
 
-    .graphique {
-      height: 250px;
-      margin-top: 20px;
-      border-radius: 12px;
-      background: #111827;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64748b;
-    }
+.nav button{
+background:none;
+border:0;
+color:#82909e;
+text-align:left;
+padding:13px 15px;
+border-radius:7px;
+font-size:14px;
+cursor:pointer;
+}
 
-    button {
-      padding: 12px 25px;
-      margin: 10px 5px 0 0;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.nav button:hover,
+.nav button.active{
+background:#151d26;
+color:white;
+}
 
-    .acheter {
-      background: #22c55e;
-      color: white;
-    }
+.main{
+margin-left:230px;
+width:calc(100% - 230px);
+}
 
-    .vendre {
-      background: #ef4444;
-      color: white;
-    }
+.top{
+height:68px;
+border-bottom:1px solid #202832;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+}
 
-    .info {
-      color: #94a3b8;
-      margin-top: 25px;
-    }
-  </style>
+.live{
+font-size:11px;
+color:#19c37d;
+}
+
+.account{
+font-size:13px;
+color:#8995a2;
+}
+
+.content{padding:28px}
+
+h1{
+margin:0;
+font-size:27px;
+}
+
+.subtitle{
+color:#74818f;
+margin:7px 0 25px;
+font-size:13px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+}
+
+.card{
+background:#0d131a;
+border:1px solid #202832;
+border-radius:9px;
+padding:20px;
+}
+
+.label{
+font-size:10px;
+color:#71808f;
+text-transform:uppercase;
+letter-spacing:.6px;
+}
+
+.value{
+font-size:23px;
+font-weight:700;
+margin-top:10px;
+}
+
+.green{color:#19c37d}
+.red{color:#ea5260}
+
+.workspace{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:14px;
+margin-top:14px;
+}
+
+.market-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.asset{
+font-size:20px;
+font-weight:700;
+}
+
+.price{
+font-size:27px;
+font-weight:700;
+margin-top:8px;
+}
+
+.change{
+font-size:13px;
+margin-top:5px;
+}
+
+.chart{
+height:390px;
+margin-top:22px;
+position:relative;
+overflow:hidden;
+border:1px solid #1b242e;
+border-radius:7px;
+background:
+linear-gradient(#151d26 1px,transparent 1px),
+linear-gradient(90deg,#151d26 1px,transparent 1px);
+background-size:50px 50px;
+}
+
+svg{
+width:100%;
+height:100%;
+}
+
+.controls{
+display:flex;
+gap:7px;
+margin-top:12px;
+}
+
+.controls button{
+background:#111820;
+border:1px solid #26313d;
+color:#8794a2;
+padding:7px 11px;
+border-radius:5px;
+cursor:pointer;
+}
+
+.controls button:hover{
+color:white;
+border-color:#19c37d;
+}
+
+.order-title{
+font-size:16px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.order-row{
+display:flex;
+justify-content:space-between;
+padding:14px 0;
+border-bottom:1px solid #202832;
+font-size:13px;
+}
+
+.order-row span{color:#7b8997}
+
+.order-buttons{
+display:flex;
+gap:8px;
+margin-top:20px;
+}
+
+.order-buttons button{
+flex:1;
+padding:13px;
+border:0;
+border-radius:6px;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.buy{background:#138a58}
+.sell{background:#bd3948}
+
+.buy:hover{background:#19a66b}
+.sell:hover{background:#d14656}
+
+.markets{
+margin-top:14px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+text-align:left;
+font-size:10px;
+color:#687583;
+padding:14px;
+}
+
+td{
+padding:17px 14px;
+border-top:1px solid #202832;
+font-size:13px;
+}
+
+tr:hover td{
+background:#111820;
+}
+
+.asset-name{
+font-weight:700;
+cursor:pointer;
+}
+
+.status{
+font-size:11px;
+color:#19c37d;
+}
+
+.notice{
+text-align:center;
+font-size:10px;
+color:#596675;
+padding:18px;
+}
+
+.error{
+color:#ea5260;
+font-size:11px;
+margin-top:8px;
+}
+
+@media(max-width:900px){
+.sidebar{display:none}
+.main{margin-left:0;width:100%}
+.cards{grid-template-columns:repeat(2,1fr)}
+.workspace{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+.cards{grid-template-columns:1fr}
+.content{padding:15px}
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>📈 Trading Game</h1>
-  </header>
+<div class="app">
 
-  <div class="container">
+<aside class="sidebar">
 
-    <div class="cards">
+<div class="logo">
+VERTEX<span>.</span>
+</div>
 
-      <div class="card">
-        <p>💰 Solde virtuel</p>
-        <div class="solde">10 000 crédits</div>
-      </div>
+<nav class="nav">
 
-      <div class="card">
-        <p>📊 Actif</p>
-        <div class="solde">GOLD</div>
-      </div>
+<button class="active">▣ Tableau de bord</button>
+<button>◈ Marchés</button>
+<button>▦ Portefeuille</button>
+<button>↔ Transactions</button>
+<button>★ Classement</button>
+<button>⚙ Paramètres</button>
 
-    </div>
+</nav>
+</aside>
 
-    <div class="card" style="margin-top:20px;">
-      <h2>GOLD / USD</h2>
 
-      <div class="graphique">
-        📈 Graphique fictif
-      </div>
+<main class="main">
 
-      <button class="acheter">Acheter</button>
-      <button class="vendre">Vendre</button>
-    </div>
+<header class="top">
 
-    <p class="info">
-      ⚠️ Jeu de simulation : tous les crédits et transactions sont fictifs.
-    </p>
+<div class="live">
+● MARCHÉS EN DIRECT
+</div>
 
-  </div>
+<div class="account">
+Compte démo · 10 000 crédits
+</div>
+
+</header>
+
+
+<section class="content">
+
+<h1>Tableau de bord</h1>
+
+<div class="subtitle">
+Simulation de marché — données publiques actualisées automatiquement
+</div>
+
+
+<div class="cards">
+
+<div class="card">
+<div class="label">Solde disponible</div>
+<div class="value">10 000,00 €</div>
+</div>
+
+<div class="card">
+<div class="label">Performance</div>
+<div class="value green">+428,60 €</div>
+</div>
+
+<div class="card">
+<div class="label">Rendement</div>
+<div class="value green">+4,28 %</div>
+</div>
+
+<div class="card">
+<div class="label">Positions</div>
+<div class="value">4</div>
+</div>
+
+</div>
+
+
+<div class="workspace">
+
+
+<div class="card">
+
+<div class="market-header">
+
+<div>
+<div class="asset" id="assetName">BTC / USD</div>
+<div class="price" id="assetPrice">Chargement...</div>
+<div class="change" id="assetChange">Connexion au marché...</div>
+</div>
+
+<div id="lastUpdate"></div>
+
+</div>
+
+
+<div class="chart">
+
+<svg viewBox="0 0 1000 390" preserveAspectRatio="none">
+
+<polyline
+id="chartLine"
+fill="none"
+stroke="#19c37d"
+stroke-width="3"
+points="
+0,280
+50,270
+100,290
+150,250
+200,260
+250,220
+300,235
+350,190
+400,205
+450,160
+500,180
+550,135
+600,150
+650,120
+700,140
+750,95
+800,110
+850,70
+900,85
+950,55
+1000,70
+"
+/>
+
+</svg>
+
+</div>
+
+
+<div class="controls">
+
+<button onclick="selectTime('1H')">1H</button>
+<button onclick="selectTime('4H')">4H</button>
+<button onclick="selectTime('1D')">1D</button>
+<button onclick="selectTime('1W')">1W</button>
+<button onclick="selectTime('1M')">1M</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="order-title">
+Passer un ordre virtuel
+</div>
+
+<div class="order-row">
+<span>Actif</span>
+<strong id="orderAsset">BTC / USD</strong>
+</div>
+
+<div class="order-row">
+<span>Prix actuel</span>
+<strong id="orderPrice">—</strong>
+</div>
+
+<div class="order-row">
+<span>Quantité</span>
+<strong>1,00</strong>
+</div>
+
+<div class="order-row">
+<span>Valeur</span>
+<strong id="orderValue">—</strong>
+</div>
+
+<div class="order-buttons">
+
+<button class="buy" onclick="buy()">ACHETER</button>
+
+<button class="sell" onclick="sell()">VENDRE</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card markets">
+
+<h2>Marchés</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ACTIF</th>
+<th>PRIX</th>
+<th>24H</th>
+<th>ÉTAT</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr onclick="choose('bitcoin','BTC / USD')">
+
+<td class="asset-name">
+₿ BTC / USD
+</td>
+
+<td id="btcPrice">—</td>
+
+<td id="btcChange">—</td>
+
+<td class="status">LIVE</td>
+
+</tr>
+
+
+<tr onclick="choose('ethereum','ETH / USD')">
+
+<td class="asset-name">
+♦ ETH / USD
+</td>
+
+<td id="ethPrice">—</td>
+
+<td id="ethChange">—</td>
+
+<td class="status">LIVE</td>
+
+</tr>
+
+
+<tr onclick="chooseGold()">
+
+<td class="asset-name">
+GOLD / USD
+</td>
+
+<td id="goldPrice">Configuration API</td>
+
+<td>—</td>
+
+<td class="status">
+API requise
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="notice">
+
+MODE SIMULATION — Tous les soldes et ordres sont virtuels.
+Les cours crypto affichés proviennent de données de marché publiques.
+Le Gold nécessite une source de données dédiée.
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+let currentAsset = "bitcoin";
+let currentName = "BTC / USD";
+
+
+// ================================
+// COINGECKO — DONNÉES CRYPTO
+// ================================
+
+async function updateCrypto(){
+
+try{
+
+const url =
+"https://api.coingecko.com/api/v3/simple/price" +
+"?ids=bitcoin,ethereum" +
+"&vs_currencies=usd" +
+"&include_24hr_change=true" +
+"&include_last_updated_at=true";
+
+const response = await fetch(url);
+
+if(!response.ok){
+throw new Error("API indisponible");
+}
+
+const data = await response.json();
+
+
+// BTC
+
+const btc =
+Number(data.bitcoin.usd);
+
+const btcChange =
+Number(data.bitcoin.usd_24h_change);
+
+document.getElementById("btcPrice").textContent =
+formatPrice(btc);
+
+document.getElementById("btcChange").textContent =
+formatChange(btcChange);
+
+document.getElementById("btcChange").className =
+btcChange >= 0 ? "green" : "red";
+
+
+// ETH
+
+const eth =
+Number(data.ethereum.usd);
+
+const ethChange =
+Number(data.ethereum.usd_24h_change);
+
+document.getElementById("ethPrice").textContent =
+formatPrice(eth);
+
+document.getElementById("ethChange").textContent =
+formatChange(ethChange);
+
+document.getElementById("ethChange").className =
+ethChange >= 0 ? "green" : "red";
+
+
+// ACTIF SÉLECTIONNÉ
+
+const selected =
+data[currentAsset];
+
+if(selected){
+
+document.getElementById("assetPrice").textContent =
+formatPrice(selected.usd);
+
+document.getElementById("orderPrice").textContent =
+formatPrice(selected.usd);
+
+document.getElementById("orderValue").textContent =
+formatPrice(selected.usd);
+
+const change =
+Number(selected.usd_24h_change);
+
+document.getElementById("assetChange").textContent =
+formatChange(change) + " sur 24h";
+
+document.getElementById("assetChange").className =
+"change " + (change >= 0 ? "green" : "red");
+
+}
+
+document.getElementById("lastUpdate").textContent =
+"● Actualisé";
+
+document.getElementById("lastUpdate").className =
+"status";
+
+}catch(error){
+
+document.getElementById("assetPrice").textContent =
+"Données indisponibles";
+
+document.getElementById("assetChange").textContent =
+"Impossible de récupérer les données actuellement.";
+
+document.getElementById("assetChange").className =
+"error";
+
+}
+
+}
+
+
+// ================================
+// FORMATAGE
+// ================================
+
+function formatPrice(value){
+
+return new Intl.NumberFormat(
+"fr-FR",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+).format(value) + " $";
+
+}
+
+
+function formatChange(value){
+
+const sign =
+value >= 0 ? "+" : "";
+
+return sign +
+value.toFixed(2) +
+" %";
+
+}
+
+
+// ================================
+// CHANGEMENT D'ACTIF
+// ================================
+
+function choose(id,name){
+
+currentAsset=id;
+currentName=name;
+
+document.getElementById("assetName").textContent=name;
+document.getElementById("orderAsset").textContent=name;
+
+updateCrypto();
+
+}
+
+
+function chooseGold(){
+
+document.getElementById("assetName").textContent =
+"GOLD / USD";
+
+document.getElementById("orderAsset").textContent =
+"GOLD / USD";
+
+document.getElementById("assetPrice").textContent =
+"API Gold à connecter";
+
+document.getElementById("assetChange").textContent =
+"Source de données Gold non configurée";
+
+}
+
+
+// ================================
+// BOUTONS
+// ================================
+
+function buy(){
+
+alert(
+"Ordre virtuel d'achat enregistré pour " +
+currentName
+);
+
+}
+
+
+function sell(){
+
+alert(
+"Ordre virtuel de vente enregistré pour " +
+currentName
+);
+
+}
+
+
+function selectTime(time){
+
+alert(
+"Unité de temps sélectionnée : " +
+time
+);
+
+}
+
+
+// ================================
+// INITIALISATION
+// ================================
+
+updateCrypto();
+
+
+// Actualisation toutes les 30 secondes
+
+setInterval(
+updateCrypto,
+30000
+);
+
+</script>
 
 </body>
 </html>
